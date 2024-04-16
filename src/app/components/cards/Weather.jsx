@@ -6,6 +6,7 @@ export const Weather = () => {
     return (
         <div className={styledLocation.CardCol}>
             <Main/>
+            <div className={styledLocation.empty}></div>
             <Timezone/>
         </div>
     )

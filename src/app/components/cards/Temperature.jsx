@@ -14,12 +14,15 @@ export const Temperature = () => {
     return (
         <div className={styledLocation.Card}>
             <TemperatureIcon/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Temperature</h1>
                 <br/>
                 Celsius: {ogTemp}&deg;
             </div>
+            <div className={styledLocation.empty}></div>
             <Feels/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <div>
                     <h1>Feels Like</h1>

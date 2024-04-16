@@ -9,20 +9,23 @@
     --card-shadow: #111111;
 }
 
-*::selection{
+*::selection {
     background-color: var(--primary-color);
 }
 
 body {
     color: var(--card-border);
     overflow: hidden;
+    @media only screen and (max-width: 767px) {
+        overflow: auto;
+    }
 }
 
-h1{
+h1 {
     font-weight: normal;
 }
 
-svg{
+svg {
     width: 5rem;
     height: 5rem;
 }

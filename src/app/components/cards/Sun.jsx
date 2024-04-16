@@ -6,6 +6,7 @@ export const Sun = () => {
     return (
         <div className={styledLocation.Card}>
             <Sunrise/>
+            <div className={styledLocation.empty}></div>
             <Sunset/>
         </div>
     )

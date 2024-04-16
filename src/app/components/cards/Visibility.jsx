@@ -10,6 +10,7 @@ export const Visibility = () => {
     return (
         <div className={styledLocation.Card}>
             <VisibilityIcons/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Visibility</h1>
                 <br/>

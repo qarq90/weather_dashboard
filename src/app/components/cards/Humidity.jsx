@@ -10,6 +10,7 @@ export const Humidity = () => {
     return (
         <div className={styledLocation.Card}>
             <HumidityIcons/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Humidity</h1>
                 <br/>

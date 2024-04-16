@@ -14,8 +14,7 @@ export const GeoPosition = () => {
     return (
         <div className={styledLocation.Card}>
             <GlobeIcon/>
-            <div style={{width: "1rem", height: "4rem"}}>
-            </div>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Geo-Position</h1>
                 <br/>

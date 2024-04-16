@@ -10,6 +10,7 @@ export const Pressure = () => {
     return (
         <div className={styledLocation.Card}>
             <PressureIcons/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Pressure</h1>
                 <br/>

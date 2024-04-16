@@ -13,6 +13,7 @@ export const Sunset = () => {
     return (
         <div className={styledLocation.Card}>
             <SunsetIcon/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Sunset</h1>
                 <br/>

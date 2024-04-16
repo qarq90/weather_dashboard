@@ -12,6 +12,7 @@ export const Location = () => {
     return (
         <div className={styledLocation.Card}>
             <LocationIcon/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Location</h1>
                 <br/>

@@ -10,6 +10,7 @@ export const Wind = () => {
     return (
         <div className={styledLocation.Card}>
             <WindIcon/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Wind</h1>
                 <br/>

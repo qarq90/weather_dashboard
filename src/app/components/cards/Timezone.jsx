@@ -12,6 +12,7 @@ export const Timezone = () => {
     return (
         <div className={styledLocation.Card}>
             <TimeIcon/>
+            <div className={styledLocation.iconSpacing}></div>
             <div>
                 <h1>Timezone</h1>
                 <br/>

@@ -12,6 +12,7 @@ export const Main = () => {
             <PanelIcon/>
             <div>
                 <h1>Weather</h1>
+                <br/>
                 Currently: {main.weather.main}
             </div>
         </div>
