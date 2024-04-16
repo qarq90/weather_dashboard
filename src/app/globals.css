@@ -14,6 +14,7 @@
 }
 
 body {
+    color: var(--card-border);
     overflow: hidden;
 }
 
