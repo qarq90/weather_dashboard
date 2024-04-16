@@ -1,0 +1,6 @@
+.dashboardContainer{
+    height: 100rem !important;
+    width: 100rem !important;
+    background-color: crimson;
+    display: flex;
+}
