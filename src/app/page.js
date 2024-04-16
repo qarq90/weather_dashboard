@@ -1,95 +1,94 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+
+import {useEffect} from "react";
+import {useAtom} from "jotai";
+import {Dashboard} from "@/app/components/Dashboard";
+import {cityJSONState, cityLatitude, cityLongitude, cityState} from "@/app/states/cityState";
+import {fetchWeatherData} from "@/app/lib/fetchData";
+import {Skeleton} from "@/app/components/Skeleton";
 
 export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+    const [currentCity, setCurrentCity] = useAtom(cityState);
+    const [currentCityJSON, setCurrentCityJSON] = useAtom(cityJSONState)
+    const [currentCityLatitude, setCurrentCityLatitude] = useAtom(cityLatitude)
+    const [currentCityLongitude, setCurrentCityLongitude] = useAtom(cityLongitude)
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+    useEffect(() => {
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+        const getCoordinates = () => {
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+            const options = {
+                enableHighAccuracy: true,
+                timeout: 5000,
+                maximumAge: 0
+            };
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  );
+            const success = (pos) => {
+
+                const crd = pos.coords;
+                const lat = crd.latitude.toString();
+                const lng = crd.longitude.toString();
+                const coordinates = [lat, lng];
+                setCurrentCityLatitude(lat)
+                setCurrentCityLongitude(lng)
+                getCity(coordinates);
+                return;
+            };
+
+            const error = (err) => {
+                console.warn(`ERROR(${err.code}): ${err.message}`);
+                if (err.code === 1) {
+                    alert("Please allow location access to use this feature.");
+                }
+            };
+
+            navigator.geolocation.getCurrentPosition(success, error, options);
+        };
+
+        const getCity = (coordinates) => {
+
+            const xhr = new XMLHttpRequest();
+            const lat = coordinates[0];
+            const lng = coordinates[1];
+
+            xhr.open('GET', `https://us1.locationiq.com/v1/reverse.php?key=pk.7df6eb21948da83793af6baefb678974&lat=${lat}&lon=${lng}&format=json`, true);
+            xhr.send();
+            xhr.onreadystatechange = processRequest;
+            xhr.addEventListener("readystatechange", processRequest, false);
+
+            function processRequest(e) {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    const city = response.address.city;
+                    setCurrentCity(city)
+                    return;
+                }
+            }
+        };
+
+        getCoordinates();
+
+    }, [])
+
+    useEffect(() => {
+        if (currentCityLatitude !== 0.0 || currentCityLongitude !== 0.0) {
+            const result = fetchWeatherData(currentCityLatitude, currentCityLongitude);
+            setCurrentCityJSON(result)
+        }
+    }, [currentCity]);
+
+    return (
+        <>
+            {
+                Object.keys(currentCityJSON).length !== 0 ?
+                    <>
+                        <Dashboard/>
+                    </> :
+                    <>
+                        <Skeleton/>
+                    </>
+            }
+        </>
+    );
 }
