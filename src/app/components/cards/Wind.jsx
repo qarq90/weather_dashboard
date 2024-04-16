@@ -14,9 +14,9 @@ export const Wind = () => {
             <div>
                 <h1>Wind</h1>
                 <br/>
-                Speed: {wind.wind.speed}
+                Speed: {wind.wind.speed}m/s
                 <br/>
-                Degree: {wind.wind.deg}
+                Degree: {wind.wind.deg}&deg;
             </div>
         </div>
     )
